@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply px-8 py-4 rounded-2xl text-lg font-semibold shadow-lg font-[Poppins]
+           transition-all duration-300 ease-in-out transform hover:scale-105 
+           focus:outline-none focus:ring-4 focus:ring-brand-purple/40 active:scale-95;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-blue-500 via-brand-purple to-indigo-600
+           bg-[length:200%_200%] animate-gradient text-white
+           hover:shadow-glow-purple; /* Používame náš nový tieň */
+  }
+
+  .btn-secondary {
+    @apply border border-white/20 backdrop-blur-xl bg-white/10 text-white
+           hover:bg-white/20 hover:border-brand-purple 
+           hover:shadow-glow-purple-light; /* Používame druhý nový tieň */
+  }
+
+  .nav-link {
+    @apply relative text-white py-2 font-semibold; /* Pridaný font-semibold pre lepšiu viditeľnosť */
+  }
+
+  .nav-link::after {
+    @apply content-[''] 
+           absolute left-0 bottom-0 
+           h-[2px] w-full 
+           bg-brand-purple 
+           origin-left scale-x-0 
+           transition-transform duration-300 ease-out;
+  }
+
+  .nav-link:hover::after {
+    @apply scale-x-100;
+  }
+
+   .form-checkbox {
+    @apply w-4 h-4 rounded bg-slate-700 border-slate-600 text-brand-purple focus:ring-brand-purple;
+  }
+
+   .range-slider {
+    @apply w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer;
+  }
+
+  /* Štýlovanie "palca" (toho krúžku) pre Chrome, Safari, Edge */
+  .range-slider::-webkit-slider-thumb {
+    @apply appearance-none w-5 h-5 bg-brand-purple rounded-full cursor-pointer
+           ring-2 ring-slate-900; /* Pridá jemné orámovanie okolo krúžku */
+  }
+
+  /* Štýlovanie "palca" pre Firefox */
+  .range-slider::-moz-range-thumb {
+    @apply w-5 h-5 bg-brand-purple rounded-full cursor-pointer
+           border-2 border-slate-900;
+  }
+}
