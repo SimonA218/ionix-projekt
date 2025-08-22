@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
 
+html {
+  scroll-behavior: smooth;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -58,5 +62,17 @@
   .range-slider::-moz-range-thumb {
     @apply w-5 h-5 bg-brand-purple rounded-full cursor-pointer
            border-2 border-slate-900;
+  }
+  .footer-link {
+    @apply text-slate-400 hover:text-brand-purple transition-colors duration-300;
+  }
+  
+  .social-link {
+    @apply h-10 w-10 flex items-center justify-center bg-slate-800 rounded-full text-slate-400
+           hover:bg-brand-purple hover:text-white transition-all duration-300 transform hover:scale-110;
+  }
+
+    .icon-link {
+    @apply hover:text-brand-purple transition-colors duration-300;
   }
 }

@@ -75,11 +75,6 @@ export default function HomePage() {
 
         <Reviews /> 
         <Gallery /> 
-        
-
-        <section id="galeria" className="h-screen flex items-center justify-center text-center">
-          <h2 className="text-4xl font-bold">Tu bude Galéria Záberov</h2>
-        </section>
       </main>
     </>
   );
