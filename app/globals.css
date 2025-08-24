@@ -1,7 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
 
-html {
-  scroll-behavior: smooth;
+
+
+@keyframes fadeInUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease-out;
 }
 
 @tailwind base;
@@ -74,5 +87,38 @@ html {
 
     .icon-link {
     @apply hover:text-brand-purple transition-colors duration-300;
+  }
+  .value-card {
+    @apply bg-slate-800/50 border border-white/10 rounded-lg p-6 flex flex-col items-center justify-center gap-3 text-lg font-semibold;
+  }
+  
+  .team-member-card {
+    @apply bg-slate-900 p-8 rounded-xl;
+  }
+
+   .contact-info-card {
+    @apply flex items-start gap-6;
+  }
+  
+  .form-input {
+    @apply w-full bg-slate-800 border border-white/20 rounded-lg px-4 py-2 text-base 
+           focus:ring-2 focus:ring-brand-purple focus:outline-none focus:border-brand-purple 
+           transition-colors duration-300;
+  }
+
+  .policy-section {
+    @apply border-l-4 border-brand-purple pl-6;
+  }
+  
+  .policy-heading {
+    @apply text-2xl font-bold text-white mb-4;
+  }
+
+  .policy-text {
+    @apply text-slate-300 leading-relaxed;
+  }
+  
+  .policy-link {
+    @apply text-sky-400 hover:text-sky-300 hover:underline transition-colors;
   }
 }

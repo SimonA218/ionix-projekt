@@ -1,30 +1,40 @@
+"use client";
+
+import { useState } from 'react'; // 1. Chýbajúci import
 import Link from 'next/link';
 import Image from 'next/image';
-// Importujeme ikony pre sociálne siete, knižnicu už máš nainštalovanú
 import { FaInstagram, FaYoutube, FaFacebookF } from 'react-icons/fa';
+import { FiCheckCircle, FiX } from 'react-icons/fi';
 
-// Pripravíme si dáta pre odkazy, aby bol kód čistejší
+// DÁTA PRE ODKAZY - Odporúčam používať malé písmená pre URL
 const companyLinks = [
-  { href: '/o-nas', label: 'O nás' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/kariera', label: 'Kariéra' },
+  { href: '/About', label: 'O nás' },
+  { href: '/Blog', label: 'Blog' },
+  { href: '/Career', label: 'Kariéra' },
 ];
 
 const supportLinks = [
-  { href: '/kontakt', label: 'Kontakt' },
-  { href: '/faq', label: 'Často kladené otázky' },
-  { href: '/reklamacie', label: 'Reklamačný poriadok' },
+  { href: '/Contact', label: 'Kontakt' },
+  { href: '/Faq', label: 'Často kladené otázky' },
+  { href: '/Complaint', label: 'Reklamačný poriadok' },
 ];
 
+// 2. Definícia komponentu je tu iba JEDENKRÁT
 const Footer = () => {
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    console.log("Formulár odoslaný!");
+    setIsPopupVisible(true);
+  };
+
   return (
-    <footer className="bg-black border-t border-white/10 pt-16 sm:pt-24 pb-8">
+    <footer className="bg-black border-t border-white/10 pt-16 sm:pt-24 pb-8 relative">
       <div className="container mx-auto px-6">
         
-        {/* Horná časť s odkazmi a newsletterom */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           
-          {/* 1. Stĺpec: Logo a sociálne siete */}
           <div className="md:col-span-2 lg:col-span-1">
             <Link href="/" className="inline-block mb-6">
               <Image 
@@ -44,7 +54,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* 2. Stĺpec: Spoločnosť */}
           <div>
             <h3 className="font-semibold text-white mb-4">Spoločnosť</h3>
             <ul className="space-y-3">
@@ -56,7 +65,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* 3. Stĺpec: Podpora */}
           <div>
             <h3 className="font-semibold text-white mb-4">Podpora</h3>
             <ul className="space-y-3">
@@ -68,44 +76,59 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* 4. Stĺpec: Newsletter */}
           <div>
             <h3 className="font-semibold text-white mb-4">Zostaňte v Obraze</h3>
             <p className="text-slate-400 text-sm mb-4">
               Získajte tipy od profíkov, novinky a exkluzívne zľavy priamo do vašej schránky.
             </p>
-            
             <form 
-            className="flex w-full max-w-sm rounded-lg 
-                        border border-brand-purple/50 
-                        focus-within:border-brand-purple focus-within:ring-2 focus-within:ring-brand-purple/40
-                        transition-all duration-300 overflow-hidden" // Pridali sme overflow-hidden pre istotu
+              onSubmit={handleNewsletterSubmit}
+              className="flex w-full max-w-sm rounded-lg border border-brand-purple/50 focus-within:border-brand-purple focus-within:ring-2 focus-within:ring-brand-purple/40 transition-all duration-300 overflow-hidden"
             >
-            <input 
+              <input 
                 type="email" 
                 placeholder="Váš e-mail" 
-                // --- KĽÚČOVÁ ZMENA JE TU ---
-                className="w-full bg-transparent border-none px-4 text-sm text-white 
-                        placeholder-slate-400
-                        focus:outline-none focus:ring-0" // Vynulujeme aj ring na inpute
-            />
-            <button 
+                required 
+                className="w-full bg-transparent border-none px-4 text-sm text-white placeholder-slate-400 focus:outline-none focus:ring-0"
+              />
+              <button 
                 type="submit" 
-                className="bg-brand-purple text-white font-bold px-4 
-                        hover:bg-opacity-80 transition-colors shrink-0"
-            >
+                className="bg-brand-purple text-white font-bold px-4 hover:bg-opacity-80 transition-colors shrink-0"
+              >
                 Odoberať
-            </button>
+              </button>
             </form>
           </div>
         </div>
 
-        {/* Spodná časť s copyrightom */}
         <div className="mt-16 sm:mt-24 pt-8 border-t border-white/10 text-center text-sm text-slate-500">
           <p>&copy; {new Date().getFullYear()} Ionix Drones. Všetky práva vyhradené.</p>
         </div>
-
       </div>
+
+      {isPopupVisible && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-slate-800 border border-brand-purple/50 rounded-2xl shadow-2xl p-8 max-w-sm text-center animate-fade-in-up">
+            <FiCheckCircle className="text-green-400 mx-auto mb-4" size={56} />
+            <h2 className="text-2xl font-bold text-white">Ďakujeme!</h2>
+            <p className="text-slate-300 mt-2">
+              Ste úspešne prihlásený. Pripravte sa na exkluzívne novinky a tipy zo sveta dronov priamo vo vašej schránke.
+            </p>
+            <button 
+              onClick={() => setIsPopupVisible(false)}
+              className="btn btn-secondary mt-6"
+            >
+              Zatvoriť
+            </button>
+          </div>
+          <button 
+            onClick={() => setIsPopupVisible(false)}
+            className="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors"
+          >
+            <FiX size={28} />
+          </button>
+        </div>
+      )}
     </footer>
   );
 };
