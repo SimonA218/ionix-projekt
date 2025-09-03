@@ -1,38 +1,49 @@
+const Filter = ({ filters, onFilterChange }) => {
+  // Bezpečnostné poistky
+  const currentCategories = filters?.categories || [];
+  const currentPrice = filters?.price || 2500;
+  const currentFlightTime = filters?.flightTime || 0;
+  const currentRange = filters?.range || 0;
 
-
-const Filter = () => {
   return (
-    <aside className="bg-slate-900/30 p-6 rounded-xl border border-white/10">
-      <h3 className="text-2xl font-bold text-white mb-6">Filtrovať</h3>
+    <aside className="bg-slate-900/30 p-6 rounded-xl border border-white/10 text-white">
+      <h3 className="text-2xl font-bold mb-6">Filtrovať</h3>
 
-      {/* Filter podľa kategórie */}
-      <div className="mb-6">
+      {/* Filter kategórií */}
+      <div className="mb-8">
         <h4 className="font-semibold mb-3">Určenie</h4>
-        <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-2"><input type="checkbox" className="form-checkbox"/> Začiatočník</label>
-          <label className="flex items-center gap-2"><input type="checkbox" className="form-checkbox"/> Pokročilý</label>
-          <label className="flex items-center gap-2"><input type="checkbox" className="form-checkbox"/> Profesionál</label>
+        <div className="flex flex-col gap-3">
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" name="categories" value="zaciatocnik" checked={currentCategories.includes('zaciatocnik')} onChange={onFilterChange} className="form-checkbox" /> 
+            <span>Začiatočník</span>
+          </label>
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" name="categories" value="pokrocily" checked={currentCategories.includes('pokrocily')} onChange={onFilterChange} className="form-checkbox" /> 
+            <span>Pokročilý</span>
+          </label>
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" name="categories" value="profesional" checked={currentCategories.includes('profesional')} onChange={onFilterChange} className="form-checkbox" /> 
+            <span>Profesionál</span>
+          </label>
         </div>
       </div>
 
-      {/* Filter podľa ceny */}
-      <div className="mb-6">
-        <h4 className="font-semibold mb-3">Cena</h4>
-        <input type="range" min="0" max="2000" className="range-slider" />
-        <div className="flex justify-between text-sm text-slate-400">
-          <span>0 €</span>
-          <span>2000 €</span>
-        </div>
+      {/* Filter ceny */}
+      <div className="mb-8">
+        <h4 className="font-semibold mb-3">Cena do: {currentPrice} €</h4>
+        <input type="range" name="price" min="0" max="2500" step="100" value={currentPrice} onChange={onFilterChange} className="range-slider w-full" />
       </div>
       
-      {/* Filter podľa funkcií */}
+      {/* Filter letového času */}
+      <div className="mb-8">
+        <h4 className="font-semibold mb-3">Min. letový čas: {currentFlightTime}+ min</h4>
+        <input type="range" name="flightTime" min="0" max="60" step="5" value={currentFlightTime} onChange={onFilterChange} className="range-slider w-full" />
+      </div>
+
+      {/* Filter dosahu */}
       <div>
-        <h4 className="font-semibold mb-3">Kľúčové Funkcie</h4>
-        <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-2"><input type="checkbox" className="form-checkbox"/> 4K Kamera</label>
-          <label className="flex items-center gap-2"><input type="checkbox" className="form-checkbox"/> Senzory prekážok</label>
-          <label className="flex items-center gap-2"><input type="checkbox" className="form-checkbox"/> Skladateľný</label>
-        </div>
+        <h4 className="font-semibold mb-3">Min. dosah: {currentRange}+ km</h4>
+        <input type="range" name="range" min="0" max="20" step="1" value={currentRange} onChange={onFilterChange} className="range-slider w-full" />
       </div>
     </aside>
   );

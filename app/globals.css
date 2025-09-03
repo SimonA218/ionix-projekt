@@ -2,25 +2,30 @@
 
 
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 2. POTOM PRICHÁDZAJÚ VLASTNÉ ANIMÁCIE A TRIEDY */
 @keyframes fadeInUp {
-  from { 
-    opacity: 0;
-    transform: translateY(20px); 
-  }
-  to { 
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in-up {
   animation: fadeInUp 0.4s ease-out;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+.transition-gradient-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 15rem;
+    background: linear-gradient(to top, #0d0d0d, transparent);
+    pointer-events: none;
+}
 @layer components {
   .btn {
     @apply px-8 py-4 rounded-2xl text-lg font-semibold shadow-lg font-[Poppins]
@@ -121,4 +126,19 @@
   .policy-link {
     @apply text-sky-400 hover:text-sky-300 hover:underline transition-colors;
   }
+  
+   .slider {
+    @apply w-full h-1 my-4 bg-slate-700 rounded-full;
+  }
+  
+  .slider-thumb {
+    @apply h-5 w-5 -top-2 bg-brand-purple rounded-full cursor-grab
+           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-brand-purple;
+  }
+  
+  .slider-track {
+    @apply h-full bg-brand-purple rounded-full top-0;
+  }
+
+  
 }

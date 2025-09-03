@@ -3,20 +3,29 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaCamera, FaBatteryFull, FaSatelliteDish } from 'react-icons/fa';
+import { useCart } from '@/context/CartContext';
 
 const ProductCard = ({ drone }) => {
+  const { addToCart } = useCart();
   if (!drone) {
     return null;
   }
 
+  let specs = {};
+  try {
+    if (drone.specs) {
+      specs = JSON.parse(drone.specs);
+    }
+  } catch (e) {
+    console.error(`Chyba pri parsovaní specs pre dron ${drone.name}:`, e);
+  }
+
   return (
-    // Celá karta je teraz obalená v Link komponente
     <Link 
-      href={`/produkty/${drone.id}`} 
-      className="group relative block bg-slate-900/50 rounded-xl border border-white/10 overflow-hidden
+      href={`/Products/${drone.id}`} 
+      className="group relative flex flex-col bg-slate-900/50 rounded-xl border border-white/10 overflow-hidden
                  transition-all duration-300 hover:shadow-glow-purple-light hover:-translate-y-2"
     >
-      {/* 1. Obrázok už nie je v samostatnom Linku */}
       <div className="overflow-hidden">
         <Image
           src={drone.image}
@@ -27,28 +36,46 @@ const ProductCard = ({ drone }) => {
         />
       </div>
       
-      {/* 2. Zvyšok obsahu je tiež vnútri Linku, takže je všetko klikateľné */}
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-grow">
         <h3 className="text-xl font-bold text-white">{drone.name}</h3>
         <p className="text-sm text-slate-400 mt-1">{drone.slogan}</p>
 
-        <div className="flex items-center gap-4 mt-4 text-slate-300 text-sm">
-          <div className="flex items-center gap-2"><FaCamera /> {drone.specs.kamera}</div>
-          <div className="flex items-center gap-2"><FaBatteryFull /> {drone.specs.letovy_cas}</div>
-          <div className="flex items-center gap-2"><FaSatelliteDish /> {drone.specs.dosah}</div>
-        </div>
-
-        <div className="mt-6 flex justify-between items-center">
-          <p className="text-2xl font-bold text-white">{drone.price}</p>
+        {/* --- TOTO JE UPRAVENÁ SEKCIA PRE ŠPECIFIKÁCIE --- */}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-4 text-slate-300 text-sm">
           
-          {/* 3. Tlačidlo "Pridať do Košíka" už nie je Link, ale reálne tlačidlo */}
-          <button 
+          {/* 1. Kamera (z objektu 'specs') */}
+          {specs.kamera && (
+            <div className="flex items-center gap-2" title="Kamera">
+              <FaCamera />
+              <span>{specs.kamera}</span>
+            </div>
+          )}
+          
+          {/* 2. Letový čas (priamo z 'drone') */}
+          {drone.flight_time && (
+            <div className="flex items-center gap-2" title="Letový čas">
+              <FaBatteryFull />
+              <span>{drone.flight_time} Minút</span>
+            </div>
+          )}
+          
+          {/* 3. Dosah (priamo z 'drone') */}
+          {drone.range && (
+            <div className="flex items-center gap-2" title="Dosah signálu">
+              <FaSatelliteDish />
+              <span>{drone.range} km</span>
+            </div>
+          )}
+        </div>
+        
+        <div className="mt-auto pt-6 flex justify-between items-center">
+          <p className="text-2xl font-bold text-white">{drone.price} €</p>
+          
+           <button 
             className="btn btn-primary text-sm px-4 py-2 z-10 relative"
-            // Pridáme onClick handler, ktorý zastaví propagáciu kliku na Link
             onClick={(e) => {
-              e.preventDefault(); // Zastaví presmerovanie na detail produktu
-              console.log(`Produkt ${drone.name} pridaný do košíka!`);
-              // Tu by bola reálna logika pre pridanie do košíka
+              e.preventDefault(); // Zastaví presmerovanie na detai
+              addToCart(drone); 
             }}
           >
             🛒 Pridať do Košíka
